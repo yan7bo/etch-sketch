@@ -33,6 +33,7 @@ function createGrid(gridSize = INIT_GRID_SIZE, divSize = DIV_SIZE) {
             smallDiv.style.height = divSize * GRID_SCALE_FACTOR + "px";
             smallDiv.style.width = divSize * GRID_SCALE_FACTOR + "px";
             smallDiv.style.border = DIV_BORDER_SIZE + "px solid grey";
+            smallDiv.style.backgroundColor = "white";
             divGrid.appendChild(smallDiv);
         }
     }
@@ -45,15 +46,17 @@ const divGrid = document.querySelector("#divGrid");
 function hover(event) {
     let target = event.target;
     if(target.className == "smallDiv") {
-        target.style.backgroundColor = getDivColor(divColorMode);
+        target.style.backgroundColor = getDivColor(divColorMode, target.style.backgroundColor);
     }
 }
 
-function getDivColor(mode) {
+function getDivColor(mode, currentColor) {
     if(mode == "std") {
         return DIV_COLOR;
     } else if (mode == "rainbow") {
         return getRainbowColor()
+    } else if (mode == "opacity") {
+        return getOpacity(currentColor);
     }
 }
 
@@ -61,8 +64,20 @@ function getRainbowColor() {
     let red = Math.floor(Math.random() * 255);
     let green = Math.floor(Math.random() * 255);
     let blue = Math.floor(Math.random() * 255);
-    console.log(`rgb(${red} ${green} ${blue})`);
-    return `rgb(${red} ${green} ${blue})`;
+    return `rgb(${red}, ${green}, ${blue})`;
+}
+
+function getOpacity(currentColor) {
+    if(currentColor == "white") {
+        return "rgba(0, 0, 0, 0.1)";
+    } else if(currentColor == "rgb(0, 0, 0)") {
+        return "rgb(0, 0, 0)";
+    } else {
+        let a = currentColor.split(",").pop();
+        a = +a.substring(1, a.length - 1);
+        a = Math.min(1, a + 0.1)
+        return `rgba(0, 0, 0, ${a})`;
+    }
 }
 
 function resizeGrid(event) {
@@ -80,6 +95,8 @@ function resizeGrid(event) {
 
     // add sketching functionality to new divGrid
     addSketch(newDivGrid);
+
+    // problem: when user clicks in the div or ul containing the buttons, it resizes the grid
 }
 
 function addSketch(element) {
@@ -111,6 +128,12 @@ function doRainbow() {
     addSketch(divGrid);
 }
 
+function doOpacity() {
+    divColorMode = "opacity";
+    const divGrid = document.querySelector("#divGrid");
+    addSketch(divGrid);
+}
+
 function getOption(event) {
     let option = event.target.textContent;
     if(option == "Reset") {
@@ -119,7 +142,8 @@ function getOption(event) {
         doReset();
         doRainbow();
     } else if(option == "10% Opacity") {
-        // do opacity
+        doReset();
+        doOpacity();
     }
 }
 
