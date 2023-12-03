@@ -82,6 +82,12 @@ function getOpacity(currentColor) {
 
 function resizeGrid(event) {
     // check which button clicked
+
+    // if user clicked the ul tag rather than a button tag, exit
+    if(event.target.tagName != "BUTTON") {
+        return;
+    }
+
     let userGridSize = +event.target.textContent.split("x")[0];
 
 
