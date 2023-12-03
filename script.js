@@ -1,9 +1,10 @@
-const INIT_GRID_SIZE = 10;
+const INIT_GRID_SIZE = 16;
 const GRID_BORDER = "4px solid black";
 
 const DIV_SIZE = 16;
 const DIV_BORDER_SIZE = 1;
 const DIV_BORDER = DIV_BORDER_SIZE + "px solid grey";
+const DIV_COLOR = "grey";
 
 const body = document.querySelector("body");
 
@@ -36,3 +37,25 @@ function createGrid() {
 }
 
 createGrid();
+
+const divGrid = document.querySelector("#divGrid");
+
+function paintDiv(event) {
+    divGrid.addEventListener("mouseover", hover);
+}
+
+function hover(event) {
+    let target = event.target;
+    target.style.backgroundColor = DIV_COLOR;
+}
+
+function main() {
+    divGrid.addEventListener("mousedown", paintDiv);
+
+    divGrid.addEventListener("mouseup", () => {
+        divGrid.removeEventListener("mouseover", hover);
+        console.log("mouse up");
+    })
+}
+
+main();
