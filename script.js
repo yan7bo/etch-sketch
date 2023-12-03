@@ -38,10 +38,6 @@ function createGrid() {
 
 const divGrid = document.querySelector("#divGrid");
 
-function paintDiv(event) {
-    divGrid.addEventListener("mouseover", hover);
-}
-
 function hover(event) {
     let target = event.target;
     if(target.className == "smallDiv") {
@@ -53,7 +49,12 @@ function main() {
     createGrid();
 
     // checks for mouse down for sketching
-    divGrid.addEventListener("mousedown", paintDiv);
+    // console.log(divGrid);
+    const divGrid = document.querySelector("#divGrid");
+    // console.log(divGrid);
+    divGrid.addEventListener("mousedown", () => {
+        divGrid.addEventListener("mouseover", hover);
+    });
 
     // checks for mouse up to stop sketching
     addEventListener("mouseup", () => {
