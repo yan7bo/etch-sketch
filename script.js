@@ -51,14 +51,7 @@ function hover(event) {
 function resizeGrid(event) {
     // check which button clicked
     let userGridSize = +event.target.textContent.split("x")[0];
-    console.log(userGridSize);
-    /*
-    let userGridSize = +prompt("Please enter grid size (min 1, max 100): ", "16");
-    while(!(userGridSize <= 100 && userGridSize > 0)) {
-        userGridSize = +prompt("Invalid input! Please enter grid size (min 1, max 100): ", "16");
-    }
-    */
-    // console.log((typeof userGridSize) + userGridSize);
+
 
     // delete current divGrid
     const divGrid = document.querySelector("#divGrid");
@@ -89,6 +82,10 @@ function doReset() {
     listSmallDiv.forEach((currentValue) => {
         currentValue.style.backgroundColor = "white";
     })
+}
+
+function doRainbow() {
+    
 }
 
 function getOption(event) {
