@@ -6,6 +6,7 @@ const DIV_SIZE = 16;
 const DIV_BORDER_SIZE = 0;
 const DIV_BORDER = DIV_BORDER_SIZE + "px solid grey";
 const DIV_COLOR = "grey";
+let divColorMode = "std";
 
 const body = document.querySelector("body");
 
@@ -44,8 +45,24 @@ const divGrid = document.querySelector("#divGrid");
 function hover(event) {
     let target = event.target;
     if(target.className == "smallDiv") {
-        target.style.backgroundColor = DIV_COLOR;
+        target.style.backgroundColor = getDivColor(divColorMode);
     }
+}
+
+function getDivColor(mode) {
+    if(mode == "std") {
+        return DIV_COLOR;
+    } else if (mode == "rainbow") {
+        return getRainbowColor()
+    }
+}
+
+function getRainbowColor() {
+    let red = Math.floor(Math.random() * 255);
+    let green = Math.floor(Math.random() * 255);
+    let blue = Math.floor(Math.random() * 255);
+    console.log(`rgb(${red} ${green} ${blue})`);
+    return `rgb(${red} ${green} ${blue})`;
 }
 
 function resizeGrid(event) {
@@ -82,10 +99,16 @@ function doReset() {
     listSmallDiv.forEach((currentValue) => {
         currentValue.style.backgroundColor = "white";
     })
+    
+    divColorMode = "std";
+    const divGrid = document.querySelector("#divGrid");
+    addSketch(divGrid);
 }
 
 function doRainbow() {
-    
+    divColorMode = "rainbow";
+    const divGrid = document.querySelector("#divGrid");
+    addSketch(divGrid);
 }
 
 function getOption(event) {
@@ -93,7 +116,8 @@ function getOption(event) {
     if(option == "Reset") {
         doReset();
     } else if(option == "Rainbow") {
-        // do rainbow
+        doReset();
+        doRainbow();
     } else if(option == "10% Opacity") {
         // do opacity
     }
