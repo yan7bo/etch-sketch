@@ -23,7 +23,7 @@ function createGrid() {
     divGrid.style.flexWrap = "wrap";
 
 
-    
+    // creates a grid of smallDiv
     for(let i = 0; i < INIT_GRID_SIZE; i++) {
         for(let j = 0; j < INIT_GRID_SIZE; j++) {
             const smallDiv = document.createElement("div");
@@ -36,8 +36,6 @@ function createGrid() {
     }
 }
 
-createGrid();
-
 const divGrid = document.querySelector("#divGrid");
 
 function paintDiv(event) {
@@ -46,15 +44,21 @@ function paintDiv(event) {
 
 function hover(event) {
     let target = event.target;
-    target.style.backgroundColor = DIV_COLOR;
+    if(target.className == "smallDiv") {
+        target.style.backgroundColor = DIV_COLOR;
+    }
 }
 
 function main() {
+    createGrid();
+
+    // checks for mouse down for sketching
     divGrid.addEventListener("mousedown", paintDiv);
 
-    divGrid.addEventListener("mouseup", () => {
-        divGrid.removeEventListener("mouseover", hover);
+    // checks for mouse up to stop sketching
+    addEventListener("mouseup", () => {
         console.log("mouse up");
+        divGrid.removeEventListener("mouseover", hover);
     })
 }
 
